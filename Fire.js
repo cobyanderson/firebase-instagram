@@ -98,6 +98,7 @@ class Fire {
       const remoteUri = await this.uploadPhotoAsync(reducedImage);
       this.collection.add({
         text,
+        comments: [],
         uid: this.uid,
         timestamp: this.timestamp,
         imageWidth: width,

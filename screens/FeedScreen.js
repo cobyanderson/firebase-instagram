@@ -78,7 +78,7 @@ export default class FeedScreen extends Component {
   // If we press the "Load More..." footer then get the next page of posts
   onPressFooter = () => this.makeRemoteRequest(this.lastKnownKey);
 
-  _onPressComment = (id) => console.log(id);
+  _onPressComment = (id) => this.props.navigation.navigate('NewComment', { id: id})
 
   render() {
     // Let's make everything purrty by calling this method which animates layout changes.

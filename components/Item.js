@@ -30,7 +30,7 @@ export default class Item extends React.Component {
     var i
     for (i = 0; i < comments.length; i++) {
       comment = comments[i]
-      createdComments.push(<Comments comment={comment}/>)
+      createdComments.push(<Comments comment={comment} key={i}/>)
     }
     return createdComments
   }

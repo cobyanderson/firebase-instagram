@@ -13,12 +13,12 @@ const collectionName = 'snack-SJucFknGX';
 class Fire {
   constructor() {
     firebase.initializeApp({
-      apiKey: 'AIzaSyAQan8_IJ6fY6F8E06FMDKVbWlrdI75mvA',
-      authDomain: 'instahamm-b09ce.firebaseapp.com',
-      databaseURL: 'https://instahamm-b09ce.firebaseio.com',
-      projectId: 'instahamm-b09ce',
-      storageBucket: 'instahamm-b09ce.appspot.com',
-      messagingSenderId: '716190466061',
+      apiKey: "AIzaSyDk7k8O3EHqg4id3Ab4EtOUGbcp3WJ_sSE",
+      authDomain: "insta-copy-2d076.firebaseapp.com",
+      databaseURL: "https://insta-copy-2d076.firebaseio.com",
+      projectId: "insta-copy-2d076",
+      storageBucket: "insta-copy-2d076.appspot.com",
+      messagingSenderId: "149499404237"
     });
     // Some nonsense...
     firebase.firestore().settings({ timestampsInSnapshots: true });
@@ -63,6 +63,24 @@ class Fire {
     } catch ({ message }) {
       alert(message);
     }
+  };
+
+  addComment = async ({id, comment}) => {
+
+    var ref = firebase.firestore().collection('snack-SJucFknGX').doc(id)
+    var transaction = firebase.firestore().runTransaction(t => {
+      return t.get(ref)
+        .then(doc => {
+          var new_comments = doc.data().comments;
+          console.log(new_comments);
+          new_comments.push(comment);
+          t.update(ref, {comments: new_comments});
+        });
+    }).then(result => {
+      console.log('Comment Transaction success!');
+    }).catch(err => {
+      console.log('Comment sTransaction failure:', err);
+    });
   };
 
   // Upload Data

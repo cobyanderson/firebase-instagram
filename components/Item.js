@@ -1,12 +1,20 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 
 const profileImageSize = 36;
 const padding = 12;
 
 export default class Item extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   state = {};
+
+  onPress = () => {
+    console.log("it pressed!")
+    this.props.onPressList();
+  };
 
   componentDidMount() {
     if (!this.props.imageWidth) {
@@ -17,8 +25,18 @@ export default class Item extends React.Component {
     }
   }
 
+  createComments = (comments) => {
+    let createdComments = []
+    var i
+    for (i = 0; i < comments.length; i++) {
+      comment = comments[i]
+      createdComments.push(<Comments comment={comment}/>)
+    }
+    return createdComments
+  }
+
   render() {
-    const { text, name, imageWidth, imageHeight, uid, image } = this.props;
+    const {text, name, comments, imageWidth, imageHeight, uid, image } = this.props;
 
     // Reduce the name to something
     const imgW = imageWidth || this.state.width;
@@ -37,7 +55,13 @@ export default class Item extends React.Component {
           }}
           source={{ uri: image }}
         />
-        <Metadata name={name} description={text} />
+        <TouchableHighlight
+          underlayColor={'#eeeeee'}
+          onPress={this.onPress}
+        >
+          <Metadata name={name} description={text} />
+        </TouchableHighlight>
+        {this.createComments(comments)}
       </View>
     );
   }
@@ -48,6 +72,12 @@ const Metadata = ({ name, description }) => (
     <IconBar />
     <Text style={styles.text}>{name}</Text>
     <Text style={styles.subtitle}>{description}</Text>
+  </View>
+);
+
+const Comments = ({comment}) => (
+  <View style={styles.padding}>
+    <Text style={styles.subtitle}>{comment}</Text>
   </View>
 );
 
@@ -69,7 +99,11 @@ const IconBar = () => (
   <View style={styles.row}>
     <View style={styles.row}>
       <Icon name="ios-heart-outline" />
-      <Icon name="ios-chatbubbles-outline" />
+
+
+        <Icon name="ios-chatbubbles-outline" />
+
+
       <Icon name="ios-send-outline" />
     </View>
     <Icon name="ios-bookmark-outline" />
